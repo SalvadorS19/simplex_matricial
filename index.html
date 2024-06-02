@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Metodo Simplex Matricial</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="ventana-principal">
+            <h1 class="titulo-modelo">Simplex Matricial</h1>
+            <!-- <div class="ventana-principal-cantidades">
+                <label for="tipoFuncion">Tipo de función</label>
+                <select name="miDropdown" id="tipo_funcion_select">
+                    <option value="1">Maximizar</option>
+                    <option value="0">Minimizar</option>
+                </select>
+
+                <label for="cant_variables">Cantidad de variables</label>
+                <input id="cant_variables" type="number" name="cant_variables" placeholder="Ingrese la cantidad"/>
+
+                <label for="cant_restricciones">Cantidad de restricciones</label>
+                <input id="cant_restricciones" type="number" name="cant_restricciones" placeholder="Ingrese la cantidad"/>
+            </div> -->
+
+            <div class="ventana-funcion-restricciones">
+                <label for="funcion_obj">Funcion objetivo</label>
+                <input id="funcion_obj" type="text" name="funcion_obj" placeholder="Ej: 2*x1 + 3*x2"/>
+            </div>
+
+            <div class="ventana-resultados">
+                <h2 id="funcion_obj_final">Funcion objetivo resultante: </h2>
+                <div class="grid-resultados">
+                    <div class="vector-variables"></div>
+                    <div class="vector-coeficientes"></div>
+                    <div class="vector-constantes"></div>
+                    <div class="matriz-coeficientes">
+                        <div class="label">A =</div>
+                        <div class="matriz"></div>
+                    </div>                    
+                </div>
+            </div>
+
+            <div class="ventana-iteraciones">
+                <h2 id="titulo-iteracion">Iteracion #</h2>
+                <div class="grid-iteraciones">
+                    <div class="vector-xb"><h3>Vector-X<sub>b</sub></h3></div>
+                    <div class="vector-ct"><h3>Vector-ct</h3></div>
+                    <div class="vector-ctb"><h3>Vector-ctb</h3></div>
+                    <div class="vector-r"><h3>Vector-r</h3></div>
+                    <div class="vector-teta"><h3>Vector-teta</h3></div>
+                    <div class="vector-z"><h3>Vector-z</h3></div>
+
+                    <div class="matriz-b">
+                        <div class="label">
+                            <h3>A =</h3> 
+                        </div>
+                        <div class="matriz"></div>
+                    </div>     
+                    <div class="matriz-b-1">
+                        <div class="label"><h3>A =</h3> </div>
+                        <div class="matriz"></div>
+                    </div> 
+                    <div class="matriz-b-1a">
+                        <div class="label"><h3>A =</h3> </div>
+                        <div class="matriz"></div>
+                    </div>                
+                </div>
+            </div>
+
+            <div class="ventana-acciones">
+                <button id="continuar-btn">Continuar</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
