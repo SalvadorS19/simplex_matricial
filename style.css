@@ -79,9 +79,10 @@ body {
   height: 900px;
   width: 1400px;
 }
-.valor-sale , .valor-entra{
+.valor-sale , .valor-entra ,.vector-b-1-b{
   color: #287aa7;
   font-weight: bold;
+  font-size: 20px;
 }
 
 .toast {
