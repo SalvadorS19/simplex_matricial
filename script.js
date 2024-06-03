@@ -147,6 +147,7 @@ function setVentanaIteracion() {
 
     const CtbEl = document.querySelector(".vector-ct");
     const coeficientes = Object.values(coeficientesFuncion);
+    console.log(coeficientes);
     const ctb = posiciones.map(pos => coeficientes[pos]);
     CtbEl.textContent = `[ ${ctb.join(", ")} ]`;
 
@@ -207,6 +208,7 @@ function setVentanaIteracion() {
     const tetaEl = document.querySelector(".vector-teta");
     console.log(bInversa, constantes);
     const bInversaB = matrizPorVector(bInversa, constantes);
+    console.log(bInversaB);
     const valorEntra = r.indexOf(Math.min(...r));
     let columna = [];
     for (let i = 0; i < bInversaA.length; i++) {
@@ -234,23 +236,38 @@ function setVentanaIteracion() {
     }
     zEl.textContent = `[ ${valores.join(", ")} ]`;
 
-    let minTeta = teta[0];
+    let minTeta = Math.max(...teta);
     for (let i = 0; i < teta.length ; i++) {
         if (teta[i] != null && teta[i] < minTeta) {
             minTeta = teta[i];
         }
     }
     const valorSale = teta.indexOf(minTeta);
+    setToast(variables[valorEntra], Xb[valorSale], bInversaB);
     Xb[valorSale] = variables[valorEntra];
-
     validarFinIteraciones(r);
 }
 
+function setToast(valorEntra, valorSale, bInversaB) {
+    
+    const toastEl = document.querySelector(".toast");
+    const valorEntraEl = document.querySelector(".toast .valor-entra");
+    const valorSaleEl = document.querySelector(".toast .valor-sale");
+    const b1b = document.querySelector(".vector-b-1-b");
+
+    b1b.textContent = `(B^-1)b = [ ${bInversaB.join(", ")} ]`;
+    toastEl.style.display = "flex";
+    valorEntraEl.textContent = `Valor entra: ${valorEntra}`;
+    valorSaleEl.textContent = `Valor sale: ${valorSale}`;
+}
+
 function validarFinIteraciones(vector) {
+    const toastEl = document.querySelector(".toast");
     const valido = vector.every(v => v >= 0);
     if (valido) {
         boton_continuar.style.display = "none";
         mensaje_fin.style.display = "initial";
+        toastEl.style.display = "none";
     }
 }
 
