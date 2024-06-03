@@ -4,31 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
     <title>Metodo Simplex Matricial</title>
   </head>
   <body>
     <div class="container">
         <div class="ventana-principal">
             <h1 class="titulo-modelo">Simplex Matricial</h1>
-            <!-- <div class="ventana-principal-cantidades">
+            <div class="ventana-principal-cantidades">
                 <label for="tipoFuncion">Tipo de función</label>
                 <select name="miDropdown" id="tipo_funcion_select">
                     <option value="1">Maximizar</option>
                     <option value="0">Minimizar</option>
                 </select>
-
                 <label for="cant_variables">Cantidad de variables</label>
                 <input id="cant_variables" type="number" name="cant_variables" placeholder="Ingrese la cantidad"/>
 
                 <label for="cant_restricciones">Cantidad de restricciones</label>
                 <input id="cant_restricciones" type="number" name="cant_restricciones" placeholder="Ingrese la cantidad"/>
-            </div> -->
-
+            </div>
             <div class="ventana-funcion-restricciones">
                 <label for="funcion_obj">Funcion objetivo</label>
                 <input id="funcion_obj" type="text" name="funcion_obj" placeholder="Ej: 2*x1 + 3*x2"/>
             </div>
-
             <div class="ventana-resultados">
                 <h2 id="funcion_obj_final">Funcion objetivo resultante: </h2>
                 <div class="grid-resultados">
@@ -41,44 +39,52 @@
                     </div>                    
                 </div>
             </div>
-
             <div class="ventana-iteraciones">
-                <h2 id="titulo-iteracion">Iteracion 1</h2>
+                <h2 id="titulo-iteracion"></h2>
                 <div class="grid-iteraciones">
-                    <div class="vector-xb"><h3>X<sub>b</sub> =</h3></div>
-
+                    <div>
+                        <h3>X<sub>b</sub>  </h3>
+                        <span class="vector-xb"></span>
+                    </div>
                     <div class="matriz-b">
-                        <div class="label">
-                            <h3>B =</h3> 
-                        </div>
+                        <h3 class="label">B </h3> 
                         <div class="matriz"></div>
-                    </div> 
-
-                    <div class="vector-ct"><h3>C<sup>t</sup><sub>b</sub> =</h3></div>
-
+                    </div>
+                    <div>
+                        <h3>
+                            C<sup>t</sup><sub>b</sub>  
+                        </h3>
+                        <span class="vector-ct"></span>
+                    </div>
                     <div class="matriz-b-1">
-                        <div class="label"><h3>B<sup>-1</sup> =</h3> </div>
+                        <h3 class="label">B<sup>-1</sup>  </h3>
                         <div class="matriz"></div>
-                    </div> 
-
+                    </div>
                     <div class="matriz-b-1a">
-                        <div class="label"><h3>B<sup>-1</sup>A =</h3> </div>
+                        <h3 class="label">B<sup>-1</sup>A  </h3>
                         <div class="matriz"></div>
-                    </div> 
-
-                    <div class="vector-ctb"><h3>C<sup>t</sup><sub>b</sub>B<sup>-1</sup>A =</h3></div>
-                    <div class="vector-r"><h3>r =</h3></div>
-                    <div class="vector-teta"><h3>&#952 =</h3></div>
-                    <div class="vector-z"><h3>Z =</h3></div>
-
-                        
-                    
-                                   
+                    </div>
+                    <div>
+                        <h3>C<sup>t</sup><sub>b</sub>B<sup>-1</sup>A  </h3>
+                        <span class="vector-ctb"></span>
+                    </div>
+                    <div>
+                        <h3>r  </h3>
+                        <span class="vector-r"></span>
+                    </div>
+                    <div>
+                        <h3>&#952  </h3>
+                        <span class="vector-teta"></span>
+                    </div>
+                    <div>
+                        <h3>Z  </h3>
+                        <span class="vector-z"></span>
+                    </div>
                 </div>
             </div>
-
             <div class="ventana-acciones">
                 <button id="continuar-btn">Continuar</button>
+                <div class="mensaje-fin">Fin de las iteraciones</div>
             </div>
         </div>
     </div>

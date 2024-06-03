@@ -147,11 +147,11 @@ select {
   color: #d9d9d9;
   font-size: 20px;
   text-align: center;
+  cursor: pointer;
 }
 
 #continuar-btn:hover {
-  transition: 0.5s;
-  background-color: #226c94;
+  background-color: #287aa7;
 }
 
 .ventana-resultados {
@@ -190,6 +190,11 @@ select {
   flex-direction: column;
 }
 
+.ventana-iteraciones {
+  display: flex;
+  flex-direction: column;
+}
+
 .ventana-iteraciones .grid-iteraciones {
   display: flex;
   flex-wrap: wrap;
@@ -217,4 +222,14 @@ select {
   color: #d9d9d9;
   border-radius: 0.5rem;
   text-align: center; /* Esto centra el texto horizontalmente */
+}
+
+.matriz {
+  display: flex;
+  flex-direction: column;
+}
+
+.mensaje-fin{
+  color: #287aa7;
+  font-size: 30px;
 }
