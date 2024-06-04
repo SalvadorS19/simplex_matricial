@@ -263,12 +263,10 @@ function setToast(valorEntra, valorSale, bInversaB) {
 }
 
 function validarFinIteraciones(vector) {
-    const toastEl = document.querySelector(".toast");
     const valido = vector.every(v => v >= 0);
     if (valido) {
         boton_continuar.style.display = "none";
         mensaje_fin.style.display = "initial";
-        toastEl.style.display = "none";
     }
 }
 
@@ -557,7 +555,8 @@ function obtenerCoeficientes(equation) {
 }
 
 function getFuncionObjetivoFinal() {
-    funcion_objetivo_final = funcion_objetivo_final_display = funcion_objetivo;
+    funcion_objetivo_final = funcion_objetivo;
+    funcion_objetivo_final_display = funcion_objetivo;
     const valores = Object.values(coeficientesFuncion);
     const maximo = Math.max(...valores);
     // const signoTipoFuncion = tipo_funcion === 1 ? "-" : "+"; // 1 Max(-) y 0 Min(+)
@@ -567,17 +566,17 @@ function getFuncionObjetivoFinal() {
             funcion_objetivo_final += ` + 0*s${i + 1}`;
             funcion_objetivo_final_display += ` + 0*s${i + 1}`;
         } else if (restriccion.indexOf(">=") != -1) {
-            funcion_objetivo_final += ` + 0*s${i + 1} - ${maximo*100}*u${i + 1}`;
-            funcion_objetivo_final_display += ` + 0*s${i + 1} - ${maximo*100}*u${i + 1}`;
+            funcion_objetivo_final += ` + 0*s${i + 1} - ${maximo*10}*u${i + 1}`;
+            funcion_objetivo_final_display += ` + 0*s${i + 1} - ${maximo*10}*u${i + 1}`;
         } else {
             funcion_objetivo_final += ` + 0*u${i + 1}`;
         }
     }
     
-    if (tipo_funcion === 0) {
-        funcion_objetivo_final = multiplicarEcuacionPorMenosUno(funcion_objetivo_final);
-        funcion_objetivo_final_display = multiplicarEcuacionPorMenosUno(funcion_objetivo_final_display);
-    }
+    // if (tipo_funcion === 0) {
+    //     funcion_objetivo_final = multiplicarEcuacionPorMenosUno(funcion_objetivo_final);
+    //     funcion_objetivo_final_display = multiplicarEcuacionPorMenosUno(funcion_objetivo_final_display);
+    // }
 }
 
 function multiplicarEcuacionPorMenosUno(equation) {
