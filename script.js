@@ -32,6 +32,7 @@ let cantidad_restricciones = 0;
 
 let funcion_objetivo = "";
 let funcion_objetivo_final = "";
+let funcion_objetivo_final_display = "";
 let restricciones = [];
 let variables = [];
 let coeficientesFuncion;
@@ -411,7 +412,7 @@ function setVentanaResultados() {
 
 function setFuncionObjFinalLabel() {
     const tipoFuncion = tipo_funcion === 1 ? "Max" : "Min";
-    const funcion = `${tipoFuncion} ${funcion_objetivo_final}`
+    const funcion = `${tipoFuncion} ${funcion_objetivo_final_display}`;
     funcion_obj_final_titulo.textContent += funcion;
 }
 
@@ -487,6 +488,44 @@ function obtenerVariables(equation) {
     return Array.from(variables);
 }
 
+function obtenerCoeficientesFinales(equation) {
+    // Elimina espacios en blanco
+    equation = equation.replace(/\s+/g, '');
+  
+    // Define una expresión regular para encontrar términos de la forma "coeficiente*variable"
+    const termRegex = /([+-]?\d*\.?\d+)?\*?([a-zA-Z]+\d*)/g;
+  
+    // Un objeto para almacenar los coeficientes
+    const coeficientes = {};
+  
+    // Usa la expresión regular para encontrar todos los términos en la ecuación
+    let match;
+    while ((match = termRegex.exec(equation)) !== null) {
+      let coeficiente = match[1];
+      const variable = match[2];
+  
+      // Si el coeficiente es nulo o vacío, significa que es 1 o -1
+      if (coeficiente === '' || coeficiente === undefined) {
+        coeficiente = equation[match.index - 1] === '-' ? -1 : 1;
+      } else {
+        coeficiente = parseFloat(coeficiente);
+      }
+  
+      // Guarda el coeficiente en el objeto con la variable como clave
+      coeficientes[variable] = coeficiente;
+    }
+
+    // Obtener variables para las restricciones con =
+    for (let i = 0; i < cantidad_restricciones; i++) {
+        const restriccion = restricciones[i];
+        if (restriccion.indexOf(" = ") != -1) {
+            coeficientes[`u${i}`] = 0;
+        };
+    }
+  
+    return coeficientes;
+}
+
 function obtenerCoeficientes(equation) {
     // Elimina espacios en blanco
     equation = equation.replace(/\s+/g, '');
@@ -518,18 +557,56 @@ function obtenerCoeficientes(equation) {
 }
 
 function getFuncionObjetivoFinal() {
-    funcion_objetivo_final = funcion_objetivo;
+    funcion_objetivo_final = funcion_objetivo_final_display = funcion_objetivo;
     const valores = Object.values(coeficientesFuncion);
     const maximo = Math.max(...valores);
-    const signoTipoFuncion = tipo_funcion === 1 ? "-" : "+"; // 1 Max(-) y 0 Min(+)
+    // const signoTipoFuncion = tipo_funcion === 1 ? "-" : "+"; // 1 Max(-) y 0 Min(+)
     for (let i = 0; i < cantidad_restricciones; i++) {
         const restriccion = restricciones[i];
         if (restriccion.indexOf("<=") != -1) {
             funcion_objetivo_final += ` + 0*s${i + 1}`;
+            funcion_objetivo_final_display += ` + 0*s${i + 1}`;
         } else if (restriccion.indexOf(">=") != -1) {
-            funcion_objetivo_final += ` + 0*s${i + 1} ${signoTipoFuncion} ${maximo*100}*u${i + 1}`;
+            funcion_objetivo_final += ` + 0*s${i + 1} - ${maximo*100}*u${i + 1}`;
+            funcion_objetivo_final_display += ` + 0*s${i + 1} - ${maximo*100}*u${i + 1}`;
+        } else {
+            funcion_objetivo_final += ` + 0*u${i + 1}`;
         }
     }
+    
+    if (tipo_funcion === 0) {
+        funcion_objetivo_final = multiplicarEcuacionPorMenosUno(funcion_objetivo_final);
+        funcion_objetivo_final_display = multiplicarEcuacionPorMenosUno(funcion_objetivo_final_display);
+    }
+}
+
+function multiplicarEcuacionPorMenosUno(equation) {
+    // Elimina espacios en blanco
+    equation = equation.replace(/\s+/g, '');
+  
+    // Define una expresión regular para encontrar términos de la forma "coeficiente*variable" o números sueltos
+    const termRegex = /([+-]?)(\d*\.?\d+|\d+)(\*[a-zA-Z]+\d*)?/g;
+  
+    let result = equation.replace(termRegex, (match, sign, coeficiente, variable) => {
+        // Cambia el signo del coeficiente
+        if (sign === '-') {
+            sign = '+';
+        } else {
+            sign = '-';
+        }
+        // Maneja casos donde la variable puede ser undefined
+        return `${sign}${coeficiente}${variable || ''}`;
+    });
+
+    // Quitar el signo "+" al inicio si existe
+    if (result[0] === '+') {
+        result = result.substring(1);
+    }
+
+    // Agregar espacios entre los términos
+    result = result.replace(/([+-])/g, ' $1 ').trim();
+  
+    return result;
 }
 
 function generarCamposRestricciones() {
