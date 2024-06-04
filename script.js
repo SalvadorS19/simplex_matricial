@@ -208,7 +208,9 @@ function setVentanaIteracion() {
 
     const tetaEl = document.querySelector(".vector-teta");
     console.log(bInversa, constantes);
-    const bInversaB = matrizPorVector(bInversa, constantes);
+    const bInversaB = matrizPorVector(bInversa, constantes).map(v => 
+        v % 1 != 0 ? Number(v).toFixed(2) : v
+    );
     console.log(bInversaB);
     const valorEntra = r.indexOf(Math.min(...r));
     let columna = [];
@@ -555,7 +557,11 @@ function obtenerCoeficientes(equation) {
 }
 
 function getFuncionObjetivoFinal() {
-    funcion_objetivo_final = funcion_objetivo;
+    if (tipo_funcion === 0) {
+        funcion_objetivo_final = multiplicarEcuacionPorMenosUno(funcion_objetivo);
+    } else {
+        funcion_objetivo_final = funcion_objetivo;
+    }
     funcion_objetivo_final_display = funcion_objetivo;
     const valores = Object.values(coeficientesFuncion);
     const maximo = Math.max(...valores);
@@ -569,14 +575,9 @@ function getFuncionObjetivoFinal() {
             funcion_objetivo_final += ` + 0*s${i + 1} - ${maximo*10}*u${i + 1}`;
             funcion_objetivo_final_display += ` + 0*s${i + 1} - ${maximo*10}*u${i + 1}`;
         } else {
-            funcion_objetivo_final += ` + 0*u${i + 1}`;
+            funcion_objetivo_final += ` - ${maximo*10}*u${i + 1}`;
         }
     }
-    
-    // if (tipo_funcion === 0) {
-    //     funcion_objetivo_final = multiplicarEcuacionPorMenosUno(funcion_objetivo_final);
-    //     funcion_objetivo_final_display = multiplicarEcuacionPorMenosUno(funcion_objetivo_final_display);
-    // }
 }
 
 function multiplicarEcuacionPorMenosUno(equation) {
